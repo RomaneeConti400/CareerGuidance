@@ -86,7 +86,7 @@ const TasChange = sequelize.define('tas_changes', {
   tasch_status: {type: DataTypes.SMALLINT, allowNull: false},
 })
 
-const Statuse = sequelize.define('statuses', {
+const Status = sequelize.define('statuses', {
   stat_id: {type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true},
   stat_name: {type: DataTypes.STRING(20), allowNull: false},
 })
@@ -152,8 +152,8 @@ TasComent.belongsTo(Task, {foreignKey: 'tas_id'})
 Task.hasMany(TasChange)
 TasChange.belongsTo(Task, {foreignKey: 'tas_id'})
 
-Statuse.hasMany(TasChange)
-TasChange.belongsTo(Statuse, {foreignKey: 'status_id'})
+Status.hasMany(TasChange)
+TasChange.belongsTo(Status, {foreignKey: 'status_id'})
 
 Role.hasMany(User)
 User.belongsTo(Role, {foreignKey: 'role_id'})
@@ -192,7 +192,7 @@ module.exports = {
     TasComent,
     Task,
     TasChange,
-    Statuse,
+    Status,
     TasEstimate,
     Project,
     ProjectRequest,
