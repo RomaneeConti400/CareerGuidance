@@ -38,7 +38,7 @@ const Technologie = sequelize.define('technologies', {
   tech_name: {type: DataTypes.STRING(20), unique: true, allowNull: false},
 })
 
-const TestsUser = sequelize.define('tests_users', {
+const TestUser = sequelize.define('tests_users', {
   user_id: {type: DataTypes.INTEGER, primaryKey: true},
   tech_id: {type: DataTypes.SMALLINT, primaryKey: true},
   mark_value: {type: DataTypes.SMALLINT, allowNull: false},
@@ -128,11 +128,11 @@ ProjectTechnologie.belongsTo(Technologie, {foreignKey: 'tech_id'})
 Project.hasMany(ProjectTechnologie)
 ProjectTechnologie.belongsTo(Project, {foreignKey: 'pr_id'})
 
-User.hasMany(TestsUser)
-TestsUser.belongsTo(User, {foreignKey: 'user_id'})
+User.hasMany(TestUser)
+TestUser.belongsTo(User, {foreignKey: 'user_id'})
 
-Test.hasMany(TestsUser)
-TestsUser.belongsTo(Test, {foreignKey: 'test_id'})
+Test.hasMany(TestUser)
+TestUser.belongsTo(Test, {foreignKey: 'test_id'})
 
 User.hasMany(Project)
 Project.belongsTo(User, {foreignKey: 'manager_id'})
@@ -185,7 +185,7 @@ module.exports = {
     Team,
     Test,
     Technologie,
-    TestsUser,
+    TestUser,
     ProjectTechnologie,
     ProjectProfession,
     Profession,
