@@ -33,7 +33,7 @@ const Test = sequelize.define('tests', {
   psychotype: {type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false},
 })
 
-const Technologie = sequelize.define('technologies', {
+const Technology = sequelize.define('technologies', {
   tech_id: {type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true},
   tech_name: {type: DataTypes.STRING(20), unique: true, allowNull: false},
 })
@@ -44,7 +44,7 @@ const TestUser = sequelize.define('tests_users', {
   mark_value: {type: DataTypes.SMALLINT, allowNull: false},
 })
 
-const ProjectTechnologie  = sequelize.define('projects_technologies', {
+const ProjectTechnology  = sequelize.define('projects_technologies', {
   pr_id: {type: DataTypes.INTEGER, primaryKey: true},
   tech_id: {type: DataTypes.SMALLINT, primaryKey: true},
 })
@@ -119,14 +119,14 @@ const ProjectRequest = sequelize.define('project_requests', {
 
 
 
-Technologie.hasMany(Test)
-Test.belongsTo(Technologie, {foreignKey: 'tech_id'})
+Technology.hasMany(Test)
+Test.belongsTo(Technology, {foreignKey: 'tech_id'})
 
-Technologie.hasMany(ProjectTechnologie)
-ProjectTechnologie.belongsTo(Technologie, {foreignKey: 'tech_id'})
+Technology.hasMany(ProjectTechnology)
+ProjectTechnology.belongsTo(Technology, {foreignKey: 'tech_id'})
 
-Project.hasMany(ProjectTechnologie)
-ProjectTechnologie.belongsTo(Project, {foreignKey: 'pr_id'})
+Project.hasMany(ProjectTechnology)
+ProjectTechnology.belongsTo(Project, {foreignKey: 'pr_id'})
 
 User.hasMany(TestUser)
 TestUser.belongsTo(User, {foreignKey: 'user_id'})
@@ -184,9 +184,9 @@ module.exports = {
     Role,
     Team,
     Test,
-    Technologie,
+    Technology,
     TestUser,
-    ProjectTechnologie,
+    ProjectTechnology,
     ProjectProfession,
     Profession,
     TasComent,
