@@ -2,7 +2,7 @@ const Router = require('express')
 const router = new Router()
 const projectProfessionController = require('../controllers/projectProfessionController')
 
-router.post('/', projectProfessionController.create)
-router.get('/', projectProfessionController.getall)
+router.post('/create', projectProfessionController.create)
+router.get('/getall', projectProfessionController.getall)
 
 module.exports = router
