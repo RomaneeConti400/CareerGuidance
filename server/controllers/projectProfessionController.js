@@ -3,9 +3,9 @@ const ApiError = require('../error/ApiError');
 
 class ProjectProfessionController {
   async create(req, res) {
-    const {prof_id} = req.body
-    const profession = await ProjectProfession.create({prof_id})
-    return res.json(profession)
+    const {pr_id, prof_id} = req.body
+    const projectProfession = await ProjectProfession.create({pr_id, prof_id})
+    return res.json(projectProfession)
   }
 
   async getall(req, res) {

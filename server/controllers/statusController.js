@@ -3,14 +3,14 @@ const ApiError = require('../error/ApiError');
 
 class StatusController {
   async create(req, res) {
-    const {role_name} = req.body
-    const role = await Status.create({role_name})
-    return res.json(role)
+    const {stat_name} = req.body
+    const status = await Status.create({stat_name})
+    return res.json(status)
   }
 
   async getall(req, res) {
-      const roles = await Status.findAll()
-      return res.json(roles)
+      const statuses = await Status.findAll()
+      return res.json(statuses)
   }
 }
 

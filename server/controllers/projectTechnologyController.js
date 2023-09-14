@@ -3,14 +3,14 @@ const ApiError = require('../error/ApiError');
 
 class ProjectTechnologyController {
   async create(req, res) {
-    const {role_name} = req.body
-    const role = await ProjectTechnology.create({role_name})
-    return res.json(role)
+    const {pr_id, tech_id} = req.body
+    const projectTechnology = await ProjectTechnology.create({pr_id, tech_id})
+    return res.json(projectTechnology)
   }
 
   async getall(req, res) {
-      const roles = await ProjectTechnology.findAll()
-      return res.json(roles)
+      const projectTechnologys = await ProjectTechnology.findAll()
+      return res.json(projectTechnologys)
   }
 }
 

@@ -3,14 +3,14 @@ const ApiError = require('../error/ApiError');
 
 class TasComentController {
   async create(req, res) {
-    const {role_name} = req.body
-    const role = await TasComent.create({role_name})
-    return res.json(role)
+    const {tascom_crdate, tas_id, tascom_descr} = req.body
+    const tasComent = await TasComent.create({tascom_crdate, tas_id, tascom_descr})
+    return res.json(tasComent)
   }
 
   async getall(req, res) {
-      const roles = await TasComent.findAll()
-      return res.json(roles)
+      const tasComents = await TasComent.findAll()
+      return res.json(tasComents)
   }
 }
 
