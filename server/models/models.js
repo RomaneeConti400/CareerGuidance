@@ -4,13 +4,13 @@ const {DataTypes} = require('sequelize')
 const User = sequelize.define('users', {
     user_id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     user_login: {type: DataTypes.STRING(20), unique: true, allowNull: false},
-    user_password: {type: DataTypes.STRING(20), allowNull: false},
+    user_password: {type: DataTypes.STRING(100), allowNull: false},
     role_id: {type: DataTypes.SMALLINT, defaultValue: 1, allowNull: false},
     user_name: {type: DataTypes.STRING(40), unique: true, allowNull: false},
     user_education: {type: DataTypes.STRING(100), allowNull: false},
     user_email: {type: DataTypes.STRING(100), allowNull: false},
     user_adr: {type: DataTypes.STRING(100), allowNull: false},
-    user_rating: {type: DataTypes.SMALLINT, allowNull: false},
+    user_rating: {type: DataTypes.SMALLINT, defaultValue: 1, allowNull: false},
 })
 
 const Role = sequelize.define('roles', {
