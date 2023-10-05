@@ -12,7 +12,7 @@ class RoleController {
     return res.json(roles);
   }
   async getbyid(req, res) {
-    const role_id = req.body;
+    const role_id = Number(req.params.id);
     const roleName = await Role.findOne({ where: { role_id } });
     return res.json(roleName);
   }

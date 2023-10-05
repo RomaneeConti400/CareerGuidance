@@ -4,6 +4,6 @@ const roleController = require("../controllers/roleController");
 
 router.post("/create", roleController.create);
 router.get("/getall", roleController.getall);
-router.get("/getbyid", roleController.getbyid);
+router.get("/getbyid/:id", roleController.getbyid);
 
 module.exports = router;
