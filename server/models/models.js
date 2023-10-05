@@ -15,7 +15,7 @@ const User = sequelize.define('users', {
 
 const Role = sequelize.define('roles', {
   role_id: {type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true},
-  role_name: {type: DataTypes.STRING(10), unique: true, allowNull: false},
+  role_name: {type: DataTypes.STRING(30), unique: true, allowNull: false},
 })
 
 const Team = sequelize.define('teams', {
