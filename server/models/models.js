@@ -148,6 +148,30 @@ TasEstimate.belongsTo(Task, {foreignKey: 'tas_id'})
 
 Task.hasMany(TasComent)
 TasComent.belongsTo(Task, {foreignKey: 'tas_id'})
+const Question = sequelize.define("questions", {
+  question_id: {
+    type: DataTypes.SMALLINT,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  test_id: { type: DataTypes.SMALLINT },
+  question_text: { type: DataTypes.STRING, allowNull: false },
+});
+
+const Answer = sequelize.define("answers", {
+  answer_id: {
+    type: DataTypes.SMALLINT,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  question_id: { type: DataTypes.SMALLINT },
+  answer_text: { type: DataTypes.STRING, allowNull: false },
+});
+Test.hasMany(Question);
+Question.belongsTo(Test, { foreignKey: "test_id" });
+
+Question.hasMany(Answer);
+Answer.belongsTo(Question, { foreignKey: "question_id" });
 
 Task.hasMany(TasChange)
 TasChange.belongsTo(Task, {foreignKey: 'tas_id'})
@@ -196,4 +220,5 @@ module.exports = {
     TasEstimate,
     Project,
     ProjectRequest,
-}
+}  Question,
+  Answer,
