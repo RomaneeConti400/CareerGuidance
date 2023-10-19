@@ -36,6 +36,17 @@ class TestController {
   // название метода временное, т.к. сам-то он post, а не get...
   async gettestresult(req, res) {
     const { test_name, answers } = req.body;
+    function filterResults(results) {
+      let biggestValue = 0;
+      for (let i = 0; i < results.length; i++) {
+        results[i].value > biggestValue
+          ? (biggestValue = results[i].value)
+          : false;
+      }
+      // лучше filter, т.к. резы могут быть равны в двух категориях
+      results = results.filter((item) => item.value === biggestValue);
+      return results;
+    }
     switch (test_name) {
       case "Опросник Климова": {
         // answers хранит массив из 20 элементов, что равны 0 или 1 (а или б соотв.)
@@ -71,16 +82,44 @@ class TestController {
           { name: "human_sign", value: human_sign },
           { name: "human_art", value: human_art },
         ];
-        let biggestValue = 0;
-        for (let i = 0; i < results.length; i++) {
-          results[i].value > biggestValue
-            ? (biggestValue = results[i].value)
-            : false;
-        }
-        // лучше filter, т.к. резы могут быть равны в двух категориях
-        results = results.filter((item) => item.value === biggestValue);
+        results = filterResults(results);
         // просто возвращаю резы, пока не появится структура для их хранения
         return res.json(results);
+      }
+      case "Тест Голланда": {
+        let results = [
+          { name: "realistic", value: 0 },
+          { name: "intelligent", value: 0 },
+          { name: "social", value: 0 },
+          { name: "conventional", value: 0 },
+          { name: "enterprising", value: 0 },
+          { name: "artistic", value: 0 },
+        ];
+        let currentType = 0;
+
+        // answers хранит массив из 42 элементов, что равны 0 или 1 (а или б соотв.)
+        try {
+          for (let i = 0, j = 1; i < answers.length; i++) {
+            if (j < results.length) {
+              answers[i] === 0
+                ? results[currentType].value++
+                : results[j].value++;
+              j++;
+            } else {
+              if (currentType + 1 < results.length - 1) {
+                currentType++;
+                j = currentType + 1;
+              } else {
+                currentType = 0;
+                j = 1;
+              }
+            }
+          }
+          results = filterResults(results);
+          return res.json(results);
+        } catch (e) {
+          return next(ApiError.internal(e.message));
+        }
       }
       default: {
         return res.json("no results");
