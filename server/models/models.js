@@ -66,9 +66,10 @@ const Technology = sequelize.define("technologies", {
 });
 
 const TestUser = sequelize.define("tests_users", {
-  user_id: { type: DataTypes.INTEGER, primaryKey: true },
-  tech_id: { type: DataTypes.SMALLINT, primaryKey: true },
-  mark_value: { type: DataTypes.SMALLINT, allowNull: false },
+  result_id: { type: DataTypes.INTEGER, primaryKey: true },
+  user_id: { type: DataTypes.INTEGER, allowNull: false },
+  test_id: { type: DataTypes.INTEGER, allowNull: false },
+  result_value: { type: DataTypes.SMALLINT, allowNull: false },
 });
 
 const ProjectTechnology = sequelize.define("projects_technologies", {
