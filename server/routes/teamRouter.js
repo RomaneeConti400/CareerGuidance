@@ -1,9 +1,9 @@
-const Router = require('express')
+import Router from 'express'
 const router = new Router()
-const teamController = require('../controllers/teamController')
+import teamController from '../controllers/teamController.js'
 
 router.post('/create', teamController.create)
 router.get('/getall', teamController.getall)
 router.get('/:id',)
 
-module.exports = router
+export default router

@@ -1,5 +1,5 @@
-const {Task} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {Task} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class TaskController {
   async create(req, res) {
@@ -14,4 +14,4 @@ class TaskController {
   }
 }
 
-module.exports = new TaskController()
+export default new TaskController()

@@ -1,5 +1,5 @@
-const { Role } = require("../models/models");
-const ApiError = require("../error/ApiError");
+import { Role } from "../models/models.js"
+import ApiError from "../error/ApiError.js"
 
 class RoleController {
   async create(req, res) {
@@ -19,4 +19,4 @@ class RoleController {
   }
 }
 
-module.exports = new RoleController();
+export default new RoleController();

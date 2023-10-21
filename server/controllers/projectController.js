@@ -1,5 +1,5 @@
-const {Project} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {Project} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class ProjectController {
   async create(req, res) {
@@ -18,4 +18,4 @@ class ProjectController {
   }
 }
 
-module.exports = new ProjectController()
+export default new ProjectController()

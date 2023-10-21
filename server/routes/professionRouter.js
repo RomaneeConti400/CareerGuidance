@@ -1,8 +1,8 @@
-const Router = require('express')
+import Router from 'express'
 const router = new Router()
-const professionController = require('../controllers/professionController')
+import professionController from '../controllers/professionController.js'
 
 router.post('/create', professionController.create)
 router.get('/getall', professionController.getall)
 
-module.exports = router
+export default router

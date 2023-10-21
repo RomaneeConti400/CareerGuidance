@@ -1,8 +1,8 @@
-const Router = require('express')
+import Router from 'express'
 const router = new Router()
-const tasComentController = require('../controllers/tasComentController')
+import tasComentController from '../controllers/tasComentController.js'
 
 router.post('/create', tasComentController.create)
 router.get('/getall', tasComentController.getall)
 
-module.exports = router
+export default router

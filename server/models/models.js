@@ -1,5 +1,7 @@
-const sequelize = require("../db");
-const { DataTypes } = require("sequelize");
+import sequelize from '../db.js';
+import { DataTypes, Sequelize } from 'sequelize';
+
+
 
 const User = sequelize.define("users", {
   user_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -212,7 +214,7 @@ ProjectProfession.belongsTo(Project, { foreignKey: "pr_id" });
 Profession.hasMany(ProjectProfession);
 ProjectProfession.belongsTo(Profession, { foreignKey: "prof_id" });
 
-module.exports = {
+export {
   User,
   Role,
   Team,

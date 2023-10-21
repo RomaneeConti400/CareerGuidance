@@ -1,9 +1,9 @@
-const Router = require('express')
+import Router from 'express'
 const router = new Router()
-const projectController = require('../controllers/projectController')
+import projectController from '../controllers/projectController.js'
 
 router.post('/create', projectController.create)
 router.get('/getall', projectController.getall)
 router.get('/:id',)
 
-module.exports = router
+export default router

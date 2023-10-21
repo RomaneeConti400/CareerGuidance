@@ -1,5 +1,5 @@
-const {TasChange} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {TasChange} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class TasChangeController {
   async create(req, res) {
@@ -14,4 +14,4 @@ class TasChangeController {
   }
 }
 
-module.exports = new TasChangeController()
+export default new TasChangeController()

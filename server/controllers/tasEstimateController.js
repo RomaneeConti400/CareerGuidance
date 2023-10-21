@@ -1,5 +1,5 @@
-const {TasEstimate} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {TasEstimate} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class TasEstimateController {
   async create(req, res) {
@@ -14,4 +14,4 @@ class TasEstimateController {
   }
 }
 
-module.exports = new TasEstimateController()
+export default new TasEstimateController()

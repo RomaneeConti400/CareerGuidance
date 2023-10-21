@@ -1,8 +1,8 @@
-const Router = require('express')
+import Router from 'express'
 const router = new Router()
-const tasChangeController = require('../controllers/tasChangeController')
+import tasChangeController from '../controllers/tasChangeController.js'
 
 router.post('/create', tasChangeController.create)
 router.get('/getall', tasChangeController.getall)
 
-module.exports = router
+export default router

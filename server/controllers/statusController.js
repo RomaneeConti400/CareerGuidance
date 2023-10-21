@@ -1,5 +1,5 @@
-const {Status} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {Status} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class StatusController {
   async create(req, res) {
@@ -14,4 +14,4 @@ class StatusController {
   }
 }
 
-module.exports = new StatusController()
+export default new StatusController()

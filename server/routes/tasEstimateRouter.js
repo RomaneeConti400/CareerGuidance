@@ -1,8 +1,8 @@
-const Router = require('express')
+import Router from 'express'
 const router = new Router()
-const tasEstimateController = require('../controllers/tasEstimateController')
+import tasEstimateController from '../controllers/tasEstimateController.js'
 
 router.post('/create', tasEstimateController.create)
 router.get('/getall', tasEstimateController.getall)
 
-module.exports = router
+export default router

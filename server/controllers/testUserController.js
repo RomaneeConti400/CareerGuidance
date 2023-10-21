@@ -1,5 +1,5 @@
-const {TestUser} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {TestUser} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class TestUserController {
   async create(req, res) {
@@ -14,4 +14,4 @@ class TestUserController {
   }
 }
 
-module.exports = new TestUserController()
+export default new TestUserController()

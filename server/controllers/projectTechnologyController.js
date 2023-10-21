@@ -1,5 +1,5 @@
-const {ProjectTechnology} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {ProjectTechnology} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class ProjectTechnologyController {
   async create(req, res) {
@@ -14,4 +14,4 @@ class ProjectTechnologyController {
   }
 }
 
-module.exports = new ProjectTechnologyController()
+export default new ProjectTechnologyController()

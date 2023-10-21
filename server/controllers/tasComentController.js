@@ -1,5 +1,5 @@
-const {TasComent} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {TasComent} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class TasComentController {
   async create(req, res) {
@@ -14,4 +14,4 @@ class TasComentController {
   }
 }
 
-module.exports = new TasComentController()
+export default new TasComentController()

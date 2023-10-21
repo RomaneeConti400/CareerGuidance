@@ -1,8 +1,8 @@
-const Router = require('express')
+import Router from 'express'
 const router = new Router()
-const technologyController = require('../controllers/technologyController')
+import technologyController from '../controllers/technologyController.js'
 
 router.post('/create', technologyController.create)
 router.get('/getall', technologyController.getall)
 
-module.exports = router
+export default router

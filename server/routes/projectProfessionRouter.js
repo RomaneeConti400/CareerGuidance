@@ -1,8 +1,8 @@
-const Router = require('express')
+import Router from 'express'
 const router = new Router()
-const projectProfessionController = require('../controllers/projectProfessionController')
+import projectProfessionController from '../controllers/projectProfessionController.js'
 
 router.post('/create', projectProfessionController.create)
 router.get('/getall', projectProfessionController.getall)
 
-module.exports = router
+export default router

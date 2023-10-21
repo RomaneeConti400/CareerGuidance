@@ -1,5 +1,5 @@
-const {Profession} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {Profession} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class ProfessionController {
   async create(req, res) {
@@ -14,4 +14,4 @@ class ProfessionController {
   }
 }
 
-module.exports = new ProfessionController()
+export default new ProfessionController()

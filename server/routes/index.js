@@ -1,22 +1,22 @@
-const Router = require('express')
-const router = new Router()
+import { Router } from 'express';
+const router = Router();
 
-const projectRouter = require('./projectRouter')
-const roleRouter = require('./roleRouter')
-const teamRouter = require('./teamRouter')
-const testRouter = require('./testRouter')
-const userRouter = require('./userRouter')
-const professionRouter = require('./professionRouter')
-const projectProfessionRouter = require('./projectProfessionRouter')
-const projectRequestRouter = require('./projectRequestRouter')
-const projectTechnologyRouter = require('./projectTechnologyRouter')
-const statusRouter = require('./statusRouter')
-const tasChangeRouter = require('./tasChangeRouter')
-const tasComentRouter = require('./tasComentRouter')
-const tasEstimateRouter = require('./tasEstimateRouter')
-const taskRouter = require('./taskRouter')
-const technologyRouter = require('./technologyRouter')
-const testUserRouter = require('./testUserRouter')
+import projectRouter from './projectRouter.js'
+import roleRouter from './roleRouter.js'
+import teamRouter from './teamRouter.js'
+import testRouter from './testRouter.js'
+import userRouter from './userRouter.js'
+import professionRouter from './professionRouter.js'
+import projectProfessionRouter from './projectProfessionRouter.js'
+import projectRequestRouter from './projectRequestRouter.js'
+import projectTechnologyRouter from './projectTechnologyRouter.js'
+import statusRouter from './statusRouter.js'
+import tasChangeRouter from './tasChangeRouter.js'
+import tasComentRouter from './tasComentRouter.js'
+import tasEstimateRouter from './tasEstimateRouter.js'
+import taskRouter from './taskRouter.js'
+import technologyRouter from './technologyRouter.js'
+import testUserRouter from './testUserRouter.js'
 
 router.use('/project', projectRouter)
 router.use('/role', roleRouter)
@@ -36,4 +36,4 @@ router.use('/technology', technologyRouter)
 router.use('/testUser', testUserRouter)
 
 
-module.exports = router
+export default router;

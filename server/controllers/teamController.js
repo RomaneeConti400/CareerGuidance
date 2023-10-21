@@ -1,5 +1,5 @@
-const {Team} = require('../models/models');
-const ApiError = require('../error/ApiError');
+import {Team} from '../models/models.js'
+import ApiError from '../error/ApiError.js'
 
 class TeamController {
   async create(req, res) {
@@ -14,4 +14,4 @@ class TeamController {
   }
 }
 
-module.exports = new TeamController()
+export default new TeamController()
