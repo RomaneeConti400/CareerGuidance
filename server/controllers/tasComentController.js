@@ -1,10 +1,12 @@
 import {TasComent} from '../models/models.js'
 import ApiError from '../error/ApiError.js'
+import { generatePublicId } from "../utils/public_id.js";
 
 class TasComentController {
   async create(req, res) {
     const {tascom_crdate, tas_id, tascom_descr} = req.body
-    const tasComent = await TasComent.create({tascom_crdate, tas_id, tascom_descr})
+    const tascom_id = generatePublicId()
+    const tasComent = await TasComent.create({tascom_id, tascom_crdate, tas_id, tascom_descr})
     return res.json(tasComent)
   }
 

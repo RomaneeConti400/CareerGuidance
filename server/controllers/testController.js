@@ -1,24 +1,23 @@
 import { Test, Answer, Question } from "../models/models.js"
 import ApiError from "../error/ApiError.js"
+import { generatePublicId } from "../utils/public_id.js";
 
 class TestController {
   async create(req, res) {
     try {
       const { test_name, test_desc, psychotype, test_content } = req.body;
-
-      const test = await Test.create({ test_name, test_desc, psychotype });
-      const testId = test.test_id;
+      const test_id = generatePublicId()
+      const test = await Test.create({test_id, test_name, test_desc, psychotype });
 
       for (const item of test_content) {
         const { question, answers } = item;
-        const questionData = await Question.create({
-          test_id: testId,
-          question_text: question,
-        });
+        const question_id = generatePublicId()
+        const questionData = await Question.create({question_id, test_id: test_id, question_text: question });
         const questionId = questionData.question_id;
 
         for (const answer of answers) {
-          await Answer.create({ question_id: questionId, answer_text: answer });
+          const answer_id = generatePublicId()
+          await Answer.create({answer_id, question_id: question_id, answer_text: answer });
         }
       }
     } catch (e) {

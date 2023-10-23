@@ -1,10 +1,12 @@
 import { Role } from "../models/models.js"
 import ApiError from "../error/ApiError.js"
+import { generatePublicId } from "../utils/public_id.js";
 
 class RoleController {
   async create(req, res) {
     const { role_name } = req.body;
-    const role = await Role.create({ role_name });
+    const role_id = generatePublicId()
+    const role = await Role.create({role_id, role_name });
     return res.json(role);
   }
   async getall(req, res) {

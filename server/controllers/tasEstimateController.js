@@ -1,10 +1,12 @@
 import {TasEstimate} from '../models/models.js'
 import ApiError from '../error/ApiError.js'
+import { generatePublicId } from "../utils/public_id.js";
 
 class TasEstimateController {
   async create(req, res) {
-    const {role_name} = req.body
-    const role = await TasEstimate.create({role_name})
+    const {tas_id, user_id, tasesti_mark, tasesti_deadline} = req.body
+    const tasesti_id = generatePublicId()
+    const role = await TasEstimate.create({tasesti_id, tas_id, user_id, tasesti_mark, tasesti_deadline})
     return res.json(role)
   }
 

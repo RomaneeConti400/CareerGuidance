@@ -1,10 +1,12 @@
 import {Profession} from '../models/models.js'
 import ApiError from '../error/ApiError.js'
+import { generatePublicId } from "../utils/public_id.js";
 
 class ProfessionController {
   async create(req, res) {
     const {prof_name} = req.body
-    const profession = await Profession.create({prof_name})
+    const prof_id = generatePublicId()
+    const profession = await Profession.create({prof_id, prof_name})
     return res.json(profession)
   }
 

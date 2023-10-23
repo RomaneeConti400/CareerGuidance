@@ -1,10 +1,12 @@
 import {Team} from '../models/models.js'
 import ApiError from '../error/ApiError.js'
+import { generatePublicId } from "../utils/public_id.js";
 
 class TeamController {
   async create(req, res) {
-    const {role_name} = req.body
-    const role = await Team.create({role_name})
+    const {user_id, pr_id, prof_id, mentor_id} = req.body
+    const team_id = generatePublicId()
+    const role = await Team.create({team_id, user_id, pr_id, prof_id, mentor_id})
     return res.json(role)
   }
 

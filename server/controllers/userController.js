@@ -2,6 +2,7 @@ import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import { User } from "../models/models.js"
 import ApiError from "../error/ApiError.js"
+import { generatePublicId } from "../utils/public_id.js";
 
 const generateJwt = (user_id, user_email, role_id) => {
   return jwt.sign({ user_id, user_email, role_id }, process.env.SECRET_KEY, {
@@ -11,16 +12,8 @@ const generateJwt = (user_id, user_email, role_id) => {
 
 class UserController {
   async registration(req, res, next) {
-    const {
-      user_login,
-      user_password,
-      role_id,
-      user_name,
-      user_education,
-      user_email,
-      user_adr,
-      user_rating,
-    } = req.body;
+    const {user_login, user_password, role_id, user_name, user_education, user_email, user_adr, user_rating } = req.body;
+    const user_id = generatePublicId()
     if (!user_email || !user_password) {
       return next(ApiError.badRequest("Incorrect email or password"));
     }
@@ -29,16 +22,7 @@ class UserController {
       return next(ApiError.badRequest("A user with this email already exists"));
     }
     const hashPassword = await bcrypt.hash(user_password, 5);
-    const user = await User.create({
-      user_login,
-      role_id,
-      user_name,
-      user_education,
-      user_email,
-      user_adr,
-      user_rating,
-      user_password: hashPassword,
-    });
+    const user = await User.create({ user_id,  user_login,  role_id, user_name, user_education, user_email, user_adr, user_rating, user_password: hashPassword });
     const token = generateJwt(user.user_id, user.user_email, user.role_id);
     return res.json({ token });
   }
