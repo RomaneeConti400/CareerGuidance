@@ -1,23 +1,36 @@
-import { Test, Answer, Question } from "../models/models.js"
-import ApiError from "../error/ApiError.js"
+import { Test, Answer, Question } from "../models/models.js";
+import ApiError from "../error/ApiError.js";
 import { generatePublicId } from "../utils/public_id.js";
 
 class TestController {
   async create(req, res) {
     try {
       const { test_name, test_desc, psychotype, test_content } = req.body;
-      const test_id = generatePublicId()
-      const test = await Test.create({test_id, test_name, test_desc, psychotype });
+      const test_id = generatePublicId();
+      const test = await Test.create({
+        test_id,
+        test_name,
+        test_desc,
+        psychotype,
+      });
 
       for (const item of test_content) {
         const { question, answers } = item;
-        const question_id = generatePublicId()
-        const questionData = await Question.create({question_id, test_id: test_id, question_text: question });
+        const question_id = generatePublicId();
+        const questionData = await Question.create({
+          question_id,
+          test_id: test_id,
+          question_text: question,
+        });
         const questionId = questionData.question_id;
 
         for (const answer of answers) {
-          const answer_id = generatePublicId()
-          await Answer.create({answer_id, question_id: question_id, answer_text: answer });
+          const answer_id = generatePublicId();
+          await Answer.create({
+            answer_id,
+            question_id: question_id,
+            answer_text: answer,
+          });
         }
       }
     } catch (e) {
@@ -119,6 +132,55 @@ class TestController {
         } catch (e) {
           return next(ApiError.internal(e.message));
         }
+      }
+      case "Тест Томаса Кеннета": {
+        // answers хранит массив из 30 элементов, что равны 0 или 1 (а или б соотв.)
+        let rivalry = 0; // соперничество
+        let cooperation = 0;
+        let compromise = 0;
+        let avoidance = 0;
+        let adaptation = 0;
+        // к сожалению, лучше варианта не придумала. зато работает.
+        answers[0] === 0 ? avoidance++ : adaptation++;
+        answers[1] === 0 ? compromise++ : cooperation++;
+        answers[2] === 0 ? rivalry++ : adaptation++;
+        answers[3] === 0 ? compromise++ : adaptation++;
+        answers[5] === 0 ? avoidance++ : rivalry++;
+        answers[6] === 0 ? avoidance++ : compromise++;
+        answers[7] === 0 ? rivalry++ : cooperation++;
+        answers[8] === 0 ? avoidance++ : rivalry++;
+        answers[9] === 0 ? rivalry++ : compromise++;
+        answers[10] === 0 ? rivalry++ : adaptation++;
+        answers[11] === 0 ? adaptation++ : avoidance++;
+        answers[12] === 0 ? compromise++ : rivalry++;
+        answers[13] === 0 ? cooperation++ : rivalry++;
+        answers[14] === 0 ? adaptation++ : avoidance++;
+        answers[15] === 0 ? adaptation++ : rivalry++;
+        answers[16] === 0 ? rivalry++ : avoidance++;
+        answers[17] === 0 ? adaptation++ : compromise++;
+        answers[18] === 0 ? cooperation++ : avoidance++;
+        answers[19] === 0 ? cooperation++ : compromise++;
+        answers[20] === 0 ? adaptation++ : cooperation++;
+        answers[21] === 0 ? compromise++ : rivalry++;
+        answers[22] === 0 ? cooperation++ : avoidance++;
+        answers[23] === 0 ? adaptation++ : compromise++;
+        answers[24] === 0 ? rivalry++ : adaptation++;
+        answers[25] === 0 ? compromise++ : cooperation++;
+        answers[26] === 0 ? avoidance++ : adaptation++;
+        answers[27] === 0 ? rivalry++ : cooperation++;
+        answers[28] === 0 ? compromise++ : avoidance++;
+        answers[29] === 0 ? adaptation++ : cooperation++;
+
+        let results = [
+          { name: "rivalry", value: rivalry },
+          { name: "cooperation", value: cooperation },
+          { name: "compromise", value: compromise },
+          { name: "avoidance", value: avoidance },
+          { name: "adaptation", value: adaptation },
+        ];
+        results = filterResults(results);
+        // просто возвращаю резы, пока не появится структура для их хранения
+        return res.json(results);
       }
       default: {
         return res.json("no results");
