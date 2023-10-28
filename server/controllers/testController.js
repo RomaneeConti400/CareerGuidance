@@ -45,8 +45,7 @@ class TestController {
     return res.json(tests);
   }
 
-  // название метода временное, т.к. сам-то он post, а не get...
-  async gettestresult(req, res) {
+  async postuserresult(req, res) {
     const { test_name, answers } = req.body;
     function filterResults(results) {
       let biggestValue = 0;
