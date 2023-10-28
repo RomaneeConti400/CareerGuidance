@@ -31,7 +31,7 @@ const Team = sequelize.define("teams", {
 const Test = sequelize.define("tests", {
   test_id: { type: DataTypes.STRING(21), primaryKey: true },
   test_name: { type: DataTypes.STRING(50), unique: true, allowNull: false },
-  test_desc: { type: DataTypes.STRING(255), unique: true, allowNull: false },
+  test_desc: { type: DataTypes.STRING(500), unique: true, allowNull: false },
   tech_id: { type: DataTypes.STRING(21), allowNull: true },
   psychotype: {type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
 });
