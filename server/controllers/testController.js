@@ -187,6 +187,117 @@ class TestController {
       }
     }
   }
+
+  async fill(req, res) {
+    let test_name = klimovQuestionare.test_name,
+      test_desc = klimovQuestionare.test_desc,
+      psychotype = klimovQuestionare.psychotype,
+      test_content = klimovQuestionare.test_content;
+    const klimov = await Test.findOne({ where: { test_name } });
+    if (!klimov) {
+      const test_id = generatePublicId();
+      const test = await Test.create({
+        test_id,
+        test_name,
+        test_desc,
+        psychotype,
+      });
+      const testId = test.test_id;
+
+      for (const item of test_content) {
+        const { question, answers } = item;
+        let question_id = generatePublicId();
+        let questionData = await Question.create({
+          question_id,
+          test_id: testId,
+          question_text: question,
+        });
+        const questionId = questionData.question_id;
+
+        for (const answer of answers) {
+          let answer_id = generatePublicId();
+          await Answer.create({
+            answer_id,
+            question_id: questionId,
+            answer_text: answer,
+          });
+        }
+      }
+    }
+
+    (test_name = hollandTest.test_name),
+      (test_desc = hollandTest.test_desc),
+      (psychotype = hollandTest.psychotype),
+      (test_content = hollandTest.test_content);
+    const holland = await Test.findOne({ where: { test_name } });
+    if (!holland) {
+      const test_id = generatePublicId();
+      const test = await Test.create({
+        test_id,
+        test_name,
+        test_desc,
+        psychotype,
+      });
+      const testId = test.test_id;
+
+      for (const item of test_content) {
+        const { question, answers } = item;
+        let question_id = generatePublicId();
+        let questionData = await Question.create({
+          question_id,
+          test_id: testId,
+          question_text: question,
+        });
+        const questionId = questionData.question_id;
+
+        for (const answer of answers) {
+          let answer_id = generatePublicId();
+          await Answer.create({
+            answer_id,
+            question_id: questionId,
+            answer_text: answer,
+          });
+        }
+      }
+    }
+
+    (test_name = thomasKennethTest.test_name),
+      (test_desc = thomasKennethTest.test_desc),
+      (psychotype = thomasKennethTest.psychotype),
+      (test_content = thomasKennethTest.test_content);
+    const kenneth = await Test.findOne({ where: { test_name } });
+    if (!kenneth) {
+      const test_id = generatePublicId();
+      const test = await Test.create({
+        test_id,
+        test_name,
+        test_desc,
+        psychotype,
+      });
+      const testId = test.test_id;
+
+      for (const item of test_content) {
+        const { question, answers } = item;
+        let question_id = generatePublicId();
+        let questionData = await Question.create({
+          question_id,
+          test_id: testId,
+          question_text: question,
+        });
+        const questionId = questionData.question_id;
+
+        for (const answer of answers) {
+          let answer_id = generatePublicId();
+          await Answer.create({
+            answer_id,
+            question_id: questionId,
+            answer_text: answer,
+          });
+        }
+      }
+    }
+    return res;
+  }
 }
 
 export default new TestController();
