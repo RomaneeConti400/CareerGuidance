@@ -25,7 +25,7 @@ const Team = sequelize.define("teams", {
   user_id: { type: DataTypes.STRING(21), allowNull: false },
   pr_id: { type: DataTypes.STRING(21), allowNull: false },
   prof_id: { type: DataTypes.STRING(21), allowNull: false },
-  mentor_id: { type: DataTypes.INTEGER, allowNull: false },
+  mentor_id: { type: DataTypes.STRING(21), allowNull: false },
 });
 
 const Test = sequelize.define("tests", {
