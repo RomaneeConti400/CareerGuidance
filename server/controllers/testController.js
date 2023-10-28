@@ -1,6 +1,11 @@
 import { Test, Answer, Question } from "../models/models.js";
 import ApiError from "../error/ApiError.js";
 import { generatePublicId } from "../utils/public_id.js";
+import {
+  klimovQuestionare,
+  hollandTest,
+  thomasKennethTest,
+} from "../data/testContent.js";
 
 class TestController {
   async create(req, res) {
@@ -28,7 +33,7 @@ class TestController {
           const answer_id = generatePublicId();
           await Answer.create({
             answer_id,
-            question_id: question_id,
+            question_id: questionId,
             answer_text: answer,
           });
         }
@@ -43,6 +48,47 @@ class TestController {
   async getall(req, res) {
     const tests = await Test.findAll();
     return res.json(tests);
+  }
+
+  async getbyid(req, res) {
+    const test_id = req.params.id;
+    const test = await Test.findOne({ where: { test_id } });
+    return res.json(test);
+  }
+
+  async gettestcontentbyid(req, res) {
+    const test_id = req.params.id;
+    const test = await Test.findOne({ where: { test_id } });
+    const testQuestions = await Question.findAll({ where: { test_id } });
+    const questionContent = [];
+    for (let item of testQuestions) {
+      questionContent.push({
+        question_id: item.question_id,
+        question_text: item.question_text,
+      });
+    }
+    const testContent = [];
+    for (let item of questionContent) {
+      let queId = item.question_id;
+      let tempAnswers = await Answer.findAll({ where: { question_id: queId } });
+      tempAnswers = tempAnswers.map(
+        (item) =>
+          (item = {
+            answer_text: item.answer_text,
+          })
+      );
+      testContent.push({
+        question_id: item.question_id,
+        question_text: item.question_text,
+        answers: tempAnswers,
+      });
+    }
+    const testInfo = {
+      test_id: test.test_id,
+      test_name: test.test_name,
+      test_content: testContent,
+    };
+    return res.json(testInfo);
   }
 
   async postuserresult(req, res) {
