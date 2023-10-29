@@ -57,7 +57,7 @@ const TestUser = sequelize.define("tests_users", {
   tesus_id: { type: DataTypes.STRING(21), primaryKey: true },
   user_id: { type: DataTypes.STRING(21), allowNull: false },
   test_id: { type: DataTypes.STRING(21), allowNull: false },
-  result_value: { type: DataTypes.SMALLINT, allowNull: false },
+  result_value: { type: DataTypes.STRING(255), allowNull: false },
 });
 
 const ProjectTechnology = sequelize.define("projects_technologies", {

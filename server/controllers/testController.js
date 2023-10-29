@@ -1,4 +1,4 @@
-import { Test, Answer, Question } from "../models/models.js";
+import { Test, Answer, Question, TestUser } from "../models/models.js";
 import ApiError from "../error/ApiError.js";
 import { generatePublicId } from "../utils/public_id.js";
 import {
@@ -79,6 +79,7 @@ class TestController {
       );
       testContent.push({
         question_id: item.question_id,
+        question_number: questionContent.indexOf(item),
         question_text: item.question_text,
         answers: tempAnswers,
       });
@@ -92,7 +93,12 @@ class TestController {
   }
 
   async postuserresult(req, res) {
+    const user_id = req.user.user_id;
     const { test_name, answers } = req.body;
+    console.log(answers);
+    const test = await Test.findOne({ where: { test_name } });
+    const test_id = test.test_id;
+
     function filterResults(results) {
       let biggestValue = 0;
       for (let i = 0; i < results.length; i++) {
@@ -100,10 +106,26 @@ class TestController {
           ? (biggestValue = results[i].value)
           : false;
       }
-      // лучше filter, т.к. резы могут быть равны в двух категориях
       results = results.filter((item) => item.value === biggestValue);
       return results;
     }
+
+    function postResultToTestUser(results) {
+      const tesus_id = generatePublicId();
+      let res_value = "";
+      for (let i = 0; i < results.length; i++) {
+        res_value += results[i].result_value;
+        i + 1 !== results.length ? (res_value += ", ") : false;
+      }
+      let newTestUser = {
+        tesus_id: tesus_id,
+        user_id: user_id,
+        test_id: test_id,
+        result_value: res_value,
+      };
+      return newTestUser;
+    }
+
     switch (test_name) {
       case "Опросник Климова": {
         // answers хранит массив из 20 элементов, что равны 0 или 1 (а или б соотв.)
@@ -133,59 +155,96 @@ class TestController {
         answers[18] === 0 ? human_tech++ : human_sign++;
         answers[19] === 0 ? human_nature++ : human_sign++;
         let results = [
-          { name: "human_nature", value: human_nature },
-          { name: "human_tech", value: human_tech },
-          { name: "human_human", value: human_human },
-          { name: "human_sign", value: human_sign },
-          { name: "human_art", value: human_art },
+          {
+            name: "human_nature",
+            value: human_nature,
+            result_value: "Человек - природа",
+          },
+          {
+            name: "human_tech",
+            value: human_tech,
+            result_value: "Человек - техника",
+          },
+          {
+            name: "human_human",
+            value: human_human,
+            result_value: "Человек - человек",
+          },
+          {
+            name: "human_sign",
+            value: human_sign,
+            result_value: "Человек - знаковая система",
+          },
+          {
+            name: "human_art",
+            value: human_art,
+            result_value: "Человек - искусство",
+          },
         ];
         results = filterResults(results);
-        // просто возвращаю резы, пока не появится структура для их хранения
-        return res.json(results);
+
+        let newTestUser = postResultToTestUser(results);
+        const testResult = await TestUser.findOne({
+          where: {
+            test_id,
+            user_id,
+          },
+        });
+        console.log(newTestUser);
+        if (!testResult) {
+          await TestUser.create(newTestUser);
+          return res.json(newTestUser.result_value);
+        }
       }
       case "Тест Голланда": {
         let results = [
-          { name: "realistic", value: 0 },
-          { name: "intelligent", value: 0 },
-          { name: "social", value: 0 },
-          { name: "conventional", value: 0 },
-          { name: "enterprising", value: 0 },
-          { name: "artistic", value: 0 },
+          { name: "realistic", value: 0, result_value: "Реалистический" },
+          { name: "intelligent", value: 0, result_value: "Интеллектуальный" },
+          { name: "social", value: 0, result_value: "Социальный" },
+          { name: "conventional", value: 0, result_value: "Конвенциальный" },
+          { name: "enterprising", value: 0, result_value: "Предприимчивый" },
+          { name: "artistic", value: 0, result_value: "Артистический" },
         ];
         let currentType = 0;
 
-        // answers хранит массив из 42 элементов, что равны 0 или 1 (а или б соотв.)
-        try {
-          for (let i = 0, j = 1; i < answers.length; i++) {
-            if (j < results.length) {
-              answers[i] === 0
-                ? results[currentType].value++
-                : results[j].value++;
-              j++;
+        for (let i = 0, j = 1; i < answers.length; i++) {
+          if (j < results.length) {
+            answers[i] === 0
+              ? results[currentType].value++
+              : results[j].value++;
+            j++;
+          } else {
+            if (currentType + 1 < results.length - 1) {
+              currentType++;
+              j = currentType + 1;
             } else {
-              if (currentType + 1 < results.length - 1) {
-                currentType++;
-                j = currentType + 1;
-              } else {
-                currentType = 0;
-                j = 1;
-              }
+              currentType = 0;
+              j = 1;
             }
           }
-          results = filterResults(results);
-          return res.json(results);
-        } catch (e) {
-          return next(ApiError.internal(e.message));
+        }
+        results = filterResults(results);
+
+        let newTestUser = postResultToTestUser(results);
+        const testResult = await TestUser.findOne({
+          where: {
+            test_id,
+            user_id,
+          },
+        });
+        console.log(newTestUser);
+        if (!testResult) {
+          await TestUser.create(newTestUser);
+          return res.json(newTestUser.result_value);
         }
       }
       case "Тест Томаса Кеннета": {
-        // answers хранит массив из 30 элементов, что равны 0 или 1 (а или б соотв.)
-        let rivalry = 0; // соперничество
+        let rivalry = 0;
         let cooperation = 0;
         let compromise = 0;
         let avoidance = 0;
         let adaptation = 0;
-        // к сожалению, лучше варианта не придумала. зато работает.
+
         answers[0] === 0 ? avoidance++ : adaptation++;
         answers[1] === 0 ? compromise++ : cooperation++;
         answers[2] === 0 ? rivalry++ : adaptation++;
@@ -217,18 +276,38 @@ class TestController {
         answers[29] === 0 ? adaptation++ : cooperation++;
 
         let results = [
-          { name: "rivalry", value: rivalry },
-          { name: "cooperation", value: cooperation },
-          { name: "compromise", value: compromise },
-          { name: "avoidance", value: avoidance },
-          { name: "adaptation", value: adaptation },
+          { name: "rivalry", value: rivalry, result_value: "Соперничество" },
+          {
+            name: "cooperation",
+            value: cooperation,
+            result_value: "Сотрудничество",
+          },
+          { name: "compromise", value: compromise, result_value: "Компромисс" },
+          { name: "avoidance", value: avoidance, result_value: "Избегание" },
+          {
+            name: "adaptation",
+            value: adaptation,
+            result_value: "Приспособление",
+          },
         ];
         results = filterResults(results);
-        // просто возвращаю резы, пока не появится структура для их хранения
-        return res.json(results);
+
+        let newTestUser = postResultToTestUser(results);
+        const testResult = await TestUser.findOne({
+          where: {
+            test_id,
+            user_id,
+          },
+        });
+        console.log(newTestUser);
+
+        if (!testResult) {
+          await TestUser.create(newTestUser);
+          return res.json(newTestUser.result_value);
+        }
       }
       default: {
-        return res.json("no results");
+        return res.json("");
       }
     }
   }
