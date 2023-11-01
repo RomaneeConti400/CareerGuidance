@@ -1,10 +1,12 @@
 import {Project} from '../models/models.js'
 import ApiError from '../error/ApiError.js'
+import { generatePublicId } from "../utils/public_id.js";
 
 class ProjectController {
   async create(req, res) {
     const {pr_name, pr_descr, manager_id, memb_num, git_link, pr_deadline} = req.body
-    const project = await Project.create({pr_name, pr_descr, manager_id, memb_num, git_link, pr_deadline})
+    const pr_id = generatePublicId()
+    const project = await Project.create({pr_id, pr_name, pr_descr, manager_id, memb_num, git_link, pr_deadline})
     return res.json(project)
   }
 

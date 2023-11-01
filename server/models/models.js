@@ -1,13 +1,13 @@
 import sequelize from '../db.js';
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
 
 
 const User = sequelize.define("users", {
-  user_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  user_id: { type: DataTypes.STRING(21), primaryKey: true},
   user_login: { type: DataTypes.STRING(20), unique: true, allowNull: false },
   user_password: { type: DataTypes.STRING(100), allowNull: false },
-  role_id: { type: DataTypes.SMALLINT, defaultValue: 1, allowNull: false },
+  role_id: { type: DataTypes.STRING(21), allowNull: false },
   user_name: { type: DataTypes.STRING(40), unique: true, allowNull: false },
   user_education: { type: DataTypes.STRING(100), allowNull: false },
   user_email: { type: DataTypes.STRING(100), allowNull: false },
@@ -16,87 +16,75 @@ const User = sequelize.define("users", {
 });
 
 const Role = sequelize.define("roles", {
-  role_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
+  role_id: { type: DataTypes.STRING(21), primaryKey: true },
   role_name: { type: DataTypes.STRING(30), unique: true, allowNull: false },
 });
 
 const Team = sequelize.define("teams", {
-  team_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  user_id: { type: DataTypes.INTEGER, allowNull: false },
-  pr_id: { type: DataTypes.INTEGER, allowNull: false },
-  prof_id: { type: DataTypes.SMALLINT, allowNull: false },
-  mentor_id: { type: DataTypes.INTEGER, allowNull: false },
+  team_id: { type: DataTypes.STRING(21), primaryKey: true },
+  user_id: { type: DataTypes.STRING(21), allowNull: false },
+  pr_id: { type: DataTypes.STRING(21), allowNull: false },
+  prof_id: { type: DataTypes.STRING(21), allowNull: false },
+  mentor_id: { type: DataTypes.STRING(21), allowNull: false },
 });
 
 const Test = sequelize.define("tests", {
-  test_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
+  test_id: { type: DataTypes.STRING(21), primaryKey: true },
   test_name: { type: DataTypes.STRING(50), unique: true, allowNull: false },
-  test_desc: { type: DataTypes.STRING(255), unique: true, allowNull: false },
-  tech_id: { type: DataTypes.SMALLINT },
-  psychotype: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-    allowNull: false,
-  },
+  test_desc: { type: DataTypes.STRING(500), unique: true, allowNull: false },
+  tech_id: { type: DataTypes.STRING(21), allowNull: true },
+  psychotype: {type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
 });
 
 const Question = sequelize.define("questions", {
-  question_id: {
-    type: DataTypes.SMALLINT,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  test_id: { type: DataTypes.SMALLINT },
+  question_id: {type: DataTypes.STRING(21), primaryKey: true },
+  test_id: { type: DataTypes.STRING(21), allowNull: false },
   question_text: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Answer = sequelize.define("answers", {
-  answer_id: {
-    type: DataTypes.SMALLINT,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  question_id: { type: DataTypes.SMALLINT },
+  answer_id: {type: DataTypes.STRING(21), primaryKey: true },
+  question_id: { type: DataTypes.STRING(21), allowNull: false },
   answer_text: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Technology = sequelize.define("technologies", {
-  tech_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
+  tech_id: { type: DataTypes.STRING(21), primaryKey: true },
   tech_name: { type: DataTypes.STRING(20), unique: true, allowNull: false },
 });
 
 const TestUser = sequelize.define("tests_users", {
-  result_id: { type: DataTypes.INTEGER, primaryKey: true },
-  user_id: { type: DataTypes.INTEGER, allowNull: false },
-  test_id: { type: DataTypes.INTEGER, allowNull: false },
-  result_value: { type: DataTypes.SMALLINT, allowNull: false },
+  tesus_id: { type: DataTypes.STRING(21), primaryKey: true },
+  user_id: { type: DataTypes.STRING(21), allowNull: false },
+  test_id: { type: DataTypes.STRING(21), allowNull: false },
+  result_value: { type: DataTypes.STRING(255), allowNull: false },
 });
 
 const ProjectTechnology = sequelize.define("projects_technologies", {
-  pr_id: { type: DataTypes.INTEGER, primaryKey: true },
-  tech_id: { type: DataTypes.SMALLINT, primaryKey: true },
+  pr_id: { type: DataTypes.STRING(21), primaryKey: true },
+  tech_id: { type: DataTypes.STRING(21), primaryKey: true },
 });
 
 const ProjectProfession = sequelize.define("projects_professions", {
-  pr_id: { type: DataTypes.INTEGER, primaryKey: true },
-  prof_id: { type: DataTypes.SMALLINT, primaryKey: true },
+  pr_id: { type: DataTypes.STRING(21), primaryKey: true },
+  prof_id: { type: DataTypes.STRING(21), primaryKey: true },
 });
 
 const Profession = sequelize.define("professions", {
-  prof_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
+  prof_id: { type: DataTypes.STRING(21), primaryKey: true},
   prof_name: { type: DataTypes.STRING(30), unique: true, allowNull: false },
 });
 
 const TasComent = sequelize.define("tas_coments", {
-  tascom_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  tascom_id: { type: DataTypes.STRING(21), primaryKey: true },
   tascom_crdate: { type: DataTypes.DATE, allowNull: false },
-  tas_id: { type: DataTypes.INTEGER, allowNull: false },
+  tas_id: { type: DataTypes.STRING(21), allowNull: false },
   tascom_descr: { type: DataTypes.TEXT, allowNull: false },
 });
 
 const Task = sequelize.define("tasks", {
-  tas_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  pr_id: { type: DataTypes.INTEGER, allowNull: false },
+  tas_id: { type: DataTypes.STRING(21), primaryKey: true },
+  pr_id: { type: DataTypes.STRING(21), allowNull: false },
   tas_descr: { type: DataTypes.TEXT, allowNull: false },
   tas_prior: { type: DataTypes.STRING(10), allowNull: false },
   tas_crdate: { type: DataTypes.DATE, allowNull: false },
@@ -107,46 +95,44 @@ const Task = sequelize.define("tasks", {
 });
 
 const TasChange = sequelize.define("tas_changes", {
-  tasch_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  tasch_id: { type: DataTypes.STRING(21), primaryKey: true },
   tasch_changedate: { type: DataTypes.DATE, allowNull: false },
-  tas_id: { type: DataTypes.INTEGER, allowNull: false },
+  tas_id: { type: DataTypes.STRING(21), allowNull: false },
   tasch_descr: { type: DataTypes.TEXT, allowNull: false },
   tasch_status: { type: DataTypes.SMALLINT, allowNull: false },
 });
 
 const Status = sequelize.define("statuses", {
-  stat_id: { type: DataTypes.SMALLINT, primaryKey: true, autoIncrement: true },
+  stat_id: { type: DataTypes.STRING(21), primaryKey: true },
   stat_name: { type: DataTypes.STRING(20), allowNull: false },
 });
 
 const TasEstimate = sequelize.define("tas_estimates", {
-  tas_id: { type: DataTypes.INTEGER, primaryKey: true },
-  user_id: { type: DataTypes.INTEGER, primaryKey: true },
+  tasesti_id: { type: DataTypes.STRING(21), primaryKey: true },
+  tas_id: { type: DataTypes.STRING(21), allowNull: false },
+  user_id: { type: DataTypes.STRING(21), allowNull: false },
   tasesti_mark: { type: DataTypes.STRING(100), allowNull: false },
   tasesti_deadline: { type: DataTypes.DATEONLY, allowNull: false },
 });
 
 const Project = sequelize.define("projects", {
-  pr_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  pr_id: { type: DataTypes.STRING(21), primaryKey: true },
   pr_name: { type: DataTypes.STRING(20), allowNull: false },
   pr_descr: { type: DataTypes.TEXT, allowNull: false },
-  manager_id: { type: DataTypes.INTEGER, allowNull: false },
+  manager_id: { type: DataTypes.STRING(21), allowNull: false },
   memb_num: { type: DataTypes.SMALLINT, allowNull: false },
   git_link: { type: DataTypes.STRING(100), allowNull: false },
   pr_deadline: { type: DataTypes.DATEONLY, allowNull: false },
 });
 
 const ProjectRequest = sequelize.define("project_requests", {
-  pr_id: { type: DataTypes.INTEGER, primaryKey: true },
+  pr_req_id: { type: DataTypes.STRING(21), primaryKey: true },
+  pr_id: { type: DataTypes.STRING(21), allowNull: false },
   req_accept: { type: DataTypes.BOOLEAN },
-  user_id: { type: DataTypes.INTEGER, primaryKey: true },
-  prof_id: { type: DataTypes.SMALLINT, primaryKey: true },
+  user_id: { type: DataTypes.STRING(21), allowNull: false },
+  prof_id: { type: DataTypes.STRING(21), allowNull: false },
   pr_req_date: { type: DataTypes.DATE, allowNull: false },
-  pr_req_mentoring: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-    allowNull: false,
-  },
+  pr_req_mentoring: {type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
 });
 
 Technology.hasMany(Test);
