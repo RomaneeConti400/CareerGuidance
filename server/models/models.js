@@ -25,13 +25,13 @@ const Team = sequelize.define("teams", {
   user_id: { type: DataTypes.STRING(21), allowNull: false },
   pr_id: { type: DataTypes.STRING(21), allowNull: false },
   prof_id: { type: DataTypes.STRING(21), allowNull: false },
-  mentor_id: { type: DataTypes.INTEGER, allowNull: false },
+  mentor_id: { type: DataTypes.STRING(21), allowNull: false },
 });
 
 const Test = sequelize.define("tests", {
   test_id: { type: DataTypes.STRING(21), primaryKey: true },
   test_name: { type: DataTypes.STRING(50), unique: true, allowNull: false },
-  test_desc: { type: DataTypes.STRING(255), unique: true, allowNull: false },
+  test_desc: { type: DataTypes.STRING(500), unique: true, allowNull: false },
   tech_id: { type: DataTypes.STRING(21), allowNull: true },
   psychotype: {type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
 });
@@ -57,7 +57,7 @@ const TestUser = sequelize.define("tests_users", {
   tesus_id: { type: DataTypes.STRING(21), primaryKey: true },
   user_id: { type: DataTypes.STRING(21), allowNull: false },
   test_id: { type: DataTypes.STRING(21), allowNull: false },
-  result_value: { type: DataTypes.SMALLINT, allowNull: false },
+  result_value: { type: DataTypes.STRING(255), allowNull: false },
 });
 
 const ProjectTechnology = sequelize.define("projects_technologies", {
